@@ -39,12 +39,12 @@ public struct ObjectCardView: View {
                     }
                 }
                 .padding(.bottom)
-                VStack(alignment: .leading) {
-                    self.SafeText(model.content.value?.last!.title)
-                        .font(.subheadline)
-                        .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 0))
-                    ObjectCardGroupView(model: (model.content.value?.last)!)
-                }
+//                VStack(alignment: .leading) {
+//                    self.SafeText(model.content.value?.last!.title)
+//                        .font(.subheadline)
+//                        .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 0))
+//                    ObjectCardGroupView(model: (model.content.value?.last)!)
+//                }
             }
         }
         .padding(16)
