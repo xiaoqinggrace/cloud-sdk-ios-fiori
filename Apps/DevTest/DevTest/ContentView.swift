@@ -16,18 +16,46 @@ extension String: Identifiable {
     }
 }
 
+extension Card: View {
+    public var body: some View {
+        return makeView()
+            .frame(maxWidth: 425, alignment: .topLeading)
+    }
+    
+    func makeView() -> AnyView {
+        switch self {
+        case .object(let card):
+            return AnyView(ObjectCardView(model: card))
+        case .list(let card):
+            return AnyView(ListCardView(model: card))
+        case .table(let card):
+            return AnyView(TableCardView(model: card))
+        case .timeline(let card):
+            return AnyView(TimelineCardView(model: card))
+        case .analytical(let card):
+            return AnyView(AnalyticalCardView(model: card))
+        }
+    }
+}
+
 struct ContentView: View {
         
     let cards: [String]
+    let collectionCards = ["LowCode", "LowCode"]//, "object", "object"]
     
     var body: some View {
         NavigationView() {
-            List(cards) { card in
-                NavigationLink(destination: self.makeBody(self.getManifest(for: card)!)) {
-                    Text(card)
+            VStack(alignment: .leading) {
+                
+                List(cards) { card in
+                    NavigationLink(destination: self.makeBody(self.getManifest(for: card)!)) {
+                        Text(card)
+                    }
+                }
+                List(["CollectionView"]) { _ in
+                    NavigationLink("HW", destination: CollectionView<[Card], Card>(data: self.cards.compactMap({ self.getManifest(for: $0)?.card }), layout: flowLayout(for:containerSize:sizes:), content: { $0 }))
                 }
             }
-            .navigationBarTitle("UI Integration Cards")
         }
     }
     
