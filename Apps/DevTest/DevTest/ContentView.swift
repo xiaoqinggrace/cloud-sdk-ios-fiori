@@ -41,19 +41,25 @@ extension Card: View {
 struct ContentView: View {
         
     let cards: [String]
-    let collectionCards = ["LowCode", "LowCode"]//, "object", "object"]
+    
+    init(cards: [String]) {
+        self.cards = cards
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+            
+        })
+    }
     
     var body: some View {
         NavigationView() {
             VStack(alignment: .leading) {
                 
+                NavigationLink("CollectionView", destination: CollectionView<[Card], Card>(data: self.cards.compactMap({ self.getManifest(for: $0)?.card }), layout: flowLayout(for:containerSize:sizes:), content: { $0 }))
+                
                 List(cards) { card in
                     NavigationLink(destination: self.makeBody(self.getManifest(for: card)!)) {
                         Text(card)
                     }
-                }
-                List(["CollectionView"]) { _ in
-                    NavigationLink("HW", destination: CollectionView<[Card], Card>(data: self.cards.compactMap({ self.getManifest(for: $0)?.card }), layout: flowLayout(for:containerSize:sizes:), content: { $0 }))
                 }
             }
         }
